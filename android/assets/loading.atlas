@@ -1,0 +1,54 @@
+
+loading.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+01
+  rotate: false
+  xy: 2, 86
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+BackgroundBar
+  rotate: false
+  xy: 2, 44
+  size: 558, 40
+  orig: 558, 40
+  offset: 0, 0
+  index: -1
+Bar
+  rotate: false
+  xy: 562, 48
+  size: 554, 36
+  orig: 554, 36
+  offset: 0, 0
+  index: -1
+BorderBar
+  rotate: false
+  xy: 2, 2
+  size: 558, 40
+  orig: 558, 40
+  offset: 0, 0
+  index: -1
+loading-frame-bg
+  rotate: false
+  xy: 1924, 1161
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+
+loading2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+14
+  rotate: false
+  xy: 2, 2
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
