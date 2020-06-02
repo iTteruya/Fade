@@ -1,4 +1,4 @@
-package com.ren.fade.controller;
+package com.ren.fade.utility;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.Preferences;
         private static final String sound_enabled = "sound.enabled";
         private static final String prefs_name = "personal";
 
-        protected Preferences getPrefs() {
+        private Preferences getPrefs() {
             return Gdx.app.getPreferences(prefs_name);
         }
 

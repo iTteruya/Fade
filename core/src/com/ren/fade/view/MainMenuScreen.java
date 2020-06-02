@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -32,8 +33,10 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void show() {
 
-        Texture backgroundT = new Texture(Gdx.files.internal("background_edit.jpg"));
-        background = new Image(backgroundT);
+        game.manager.load("backgrounds.atlas", TextureAtlas.class);
+        game.manager.finishLoading();
+        TextureAtlas atlas = game.manager.get("backgrounds.atlas", TextureAtlas.class);
+        background = new Image(atlas.findRegion("17"));
         stage.addActor(background);
 
         table = new Table();
@@ -50,15 +53,21 @@ public class MainMenuScreen extends AbstractScreen {
         options.setLabel(new Label("Options", skin.get("title-plain", Label.LabelStyle.class)));
         options.getLabel().setAlignment(Align.center);
         options.setColor(Color.GRAY);
+        TextButton rules = new TextButton(null, skin);
+        rules.setLabel(new Label("Rules", skin.get("title-plain", Label.LabelStyle.class)));
+        rules.getLabel().setAlignment(Align.center);
+        rules.setColor(Color.GRAY);
 
         table.add(play).width(stage.getWidth() / 3f).height(stage.getHeight() * 0.1f).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(options).height(stage.getHeight() * 0.1f).fillX().uniformX();
+        table.row();
+        table.add(rules).height(stage.getHeight() * 0.1f).fillX().uniformX();
 
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new LoadingScreen(game));
+                game.setScreen(new DifficultyScreen(game));
             }
         });
 
@@ -66,6 +75,13 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new OptionsScreen(game));
+            }
+        });
+
+        rules.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new RulesScreen(game));
             }
         });
 
@@ -86,7 +102,8 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     @Override
-    public void hide() {
+    public void dispose() {
+        game.manager.unload("backgrounds.atlas");
         stage.dispose();
     }
 }

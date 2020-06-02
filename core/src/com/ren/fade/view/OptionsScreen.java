@@ -30,7 +30,7 @@ public class OptionsScreen extends AbstractScreen  {
     private Label soundOnOffLabel;
     private Image background;
 
-    public OptionsScreen(Fade game) {
+    OptionsScreen(Fade game) {
         super(game);
         stage = new Stage(new ExtendViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
@@ -97,7 +97,6 @@ public class OptionsScreen extends AbstractScreen  {
         returnButton.setColor(Color.GRAY);
         returnButton.setLabel(new Label("Return", skin.get("title-plain", Label.LabelStyle.class)));
         returnButton.getLabel().setAlignment(Align.center);
-        returnButton.setColor(Color.GRAY);
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -151,7 +150,7 @@ public class OptionsScreen extends AbstractScreen  {
 
 
     @Override
-    public void hide() {
+    public void dispose() {
         game.manager.unload("loading.atlas");
         stage.dispose();
     }

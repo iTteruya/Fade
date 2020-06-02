@@ -1,25 +1,15 @@
 package com.ren.fade.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.ren.fade.Fade;
 
 public class LoadingScreen extends AbstractScreen {
@@ -41,13 +31,12 @@ public class LoadingScreen extends AbstractScreen {
     private float percent;
 
 
-    public LoadingScreen(Fade game) {
+    LoadingScreen(Fade game) {
         super(game);
     }
 
     @Override
     public void show() {
-
 
         game.manager.load("loading.atlas", TextureAtlas.class);
         game.manager.finishLoading();
@@ -114,7 +103,9 @@ public class LoadingScreen extends AbstractScreen {
                     stage.addActor(label);
                     loadComplete++;
                 }
-                if (Gdx.input.isTouched()) game.setScreen(new GameScreen(game));
+                if (Gdx.input.isTouched()) {
+                    game.setScreen(game.gameScreen);
+                }
             }
         }
 
@@ -127,12 +118,10 @@ public class LoadingScreen extends AbstractScreen {
         stage.act();
         stage.draw();
 
-
     }
 
-
     @Override
-    public void hide() {
+    public void dispose() {
         game.manager.unload("loading.atlas");
         stage.dispose();
     }

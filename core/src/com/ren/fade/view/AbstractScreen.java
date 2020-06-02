@@ -1,13 +1,14 @@
 package com.ren.fade.view;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.ren.fade.Fade;
 
 public abstract class AbstractScreen implements Screen {
 
-    protected Fade game;
+    Fade game;
 
-    public AbstractScreen(Fade game) {
+    AbstractScreen(Fade game) {
         this.game = game;
     }
 
@@ -20,7 +21,7 @@ public abstract class AbstractScreen implements Screen {
     }
 
     @Override
-    public void dispose() {
+    public void hide() {
     }
 
 
