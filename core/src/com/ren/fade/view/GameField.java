@@ -131,6 +131,7 @@ public class GameField extends Actor implements GameFieldController, Animation {
 
     int getScore() {
         return fieldLogic.getScore();
+
     }
 
 
