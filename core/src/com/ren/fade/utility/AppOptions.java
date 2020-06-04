@@ -11,9 +11,15 @@ import com.badlogic.gdx.Preferences;
         private static final String sound_enabled = "sound.enabled";
         private static final String prefs_name = "personal";
 
+        private Preferences preferences;
+
         private Preferences getPrefs() {
-            return Gdx.app.getPreferences(prefs_name);
+            if (this.preferences == null) {
+                this.preferences = Gdx.app.getPreferences(prefs_name);
+            }
+            return this.preferences;
         }
+
 
         public boolean isSoundEffectsEnabled() {
             return getPrefs().getBoolean(sound_enabled, true);

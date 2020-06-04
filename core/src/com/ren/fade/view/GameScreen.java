@@ -16,47 +16,28 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.ren.fade.Fade;
 
 
 public class GameScreen extends AbstractScreen implements InputProcessor, ScreenInterface {
 
-    private GameField gameField;
+    GameField gameField;
+    boolean win;
     public Stage stage;
     private SpriteBatch batch;
-    private Table table;
     private Label score;
     private Label timer;
-//    private float delayTimer;
-//    private final float DELAY_TIMER_INTERVAL = 0.7f;
-//    private Timer gameTimer;
-//    private float ROUND_TIME_INTERVAL = 0;
     private InputMultiplexer multiplexer = new InputMultiplexer();
     private InputProcessor inputProcessor = null;
-
-
-
 
     public GameScreen(Fade game, SpriteBatch batch) {
         super(game);
         this.batch = batch;
-        stage = new Stage(new ExtendViewport(640, 480));
         gameField = new GameField(7);
-//        switch (game.difficultyLevel) {
-//            case 1: this.ROUND_TIME_INTERVAL = 500f;
-//            case 2: this.ROUND_TIME_INTERVAL = 400f;
-//            default: this.ROUND_TIME_INTERVAL = 300f;
-//        }
-//        this.delayTimer = ROUND_TIME_INTERVAL;
-//        this.gameTimer = new Timer();
-//        this.gameTimer.scheduleTask(new Timer.Task() {
-//            @Override
-//            public void run() {
-//               delayTimer--;
-//            }
-//        }, 0.7f);
+        gameField.setSoundEnabled(game.getPreferences().isSoundEffectsEnabled());
+        gameField.setSoundVolume(game.getPreferences().getSoundVolume());
+        stage = new Stage(new ExtendViewport(640, 480));
     }
 
     @Override
@@ -71,7 +52,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Screen
     public void show() {
         Skin skin = new Skin(Gdx.files.internal("shade_skin\\uiskin.json"));
 
-        final TextButton returnButton = new TextButton(null, skin);
+        TextButton returnButton = new TextButton(null, skin);
         returnButton.setColor(Color.GRAY);
         returnButton.setLabel(new Label("Menu", skin.get("title-plain", Label.LabelStyle.class)));
         returnButton.getLabel().setAlignment(Align.center);
@@ -83,7 +64,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Screen
             }
         });
 
-        final TextButton restartButton = new TextButton(null, skin);
+        TextButton restartButton = new TextButton(null, skin);
         restartButton.setColor(Color.GRAY);
         restartButton.setLabel(new Label("Restart", skin.get("title-plain", Label.LabelStyle.class)));
         restartButton.getLabel().setAlignment(Align.center);
@@ -94,20 +75,17 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Screen
             }
         });
 
-//        timer = new Label("Time: " + delayTimer, skin, "title-plain");
+        timer = new Label("Moves: " + gameField.getMoves() , skin, "title-plain");
         score = new Label("Score: 0", skin, "title-plain");
 
-        Table table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
-//        table.add(timer).width(120).pad(10);
-        table.add(score).width(120).pad(10);
-        table.add(restartButton).width(120).pad(10);
-//        table.add(returnButton).width(120).pad(10);
-        table.add(returnButton).width(120).pad(10);
-        table.top().right();
-
-
+        Table table1 = new Table();
+        table1.setFillParent(true);
+        stage.addActor(table1);
+        table1.add(timer).width(stage.getWidth() / 5f).height(stage.getHeight() * 0.07f).pad(10);
+        table1.add(score).width(stage.getWidth() / 5f).height(stage.getHeight() * 0.07f).pad(10);
+        table1.add(restartButton).width(stage.getWidth() / 7f).height(stage.getHeight() * 0.07f).fillX().uniformX().pad(10);
+        table1.add(returnButton).width(stage.getWidth() / 7f).height(stage.getHeight() * 0.07f).fillX().uniformX().pad(10);
+        table1.top().right();
 
     }
 
@@ -127,11 +105,21 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Screen
         Texture image = game.manager.get("16.png");
         batch.draw(image, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         score.setText("Score: " + gameField.getScore());
-//        timer.setText("Time:" + gameTimer);
+        timer.setText("Moves: " + gameField.getMoves());
         gameField.render(delta, this.batch, game.manager);
         multiplexer.addProcessor(this);
         multiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(multiplexer);
+        if (gameField.getMoves() <= 0) {
+            stage.dispose();
+            this.win = false;
+            game.setScreen(new EndScreen(game));
+        }
+        if (gameField.getScore() >= 1000) {
+            stage.dispose();
+            this.win = true;
+            game.setScreen(new EndScreen(game));
+        }
     }
 
 

@@ -130,7 +130,6 @@ public class OptionsScreen extends AbstractScreen  {
         table.add(soundEffectsCheckbox);
         table.row().pad(10,0,0,10);
         table.add(returnButton).width(stage.getWidth() / 3f).height(stage.getHeight() * 0.1f).fillX().uniformX().colspan(2);
-
     }
 
     @Override
@@ -147,7 +146,6 @@ public class OptionsScreen extends AbstractScreen  {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
-
 
     @Override
     public void dispose() {

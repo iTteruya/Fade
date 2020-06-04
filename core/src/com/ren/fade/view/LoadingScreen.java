@@ -104,7 +104,7 @@ public class LoadingScreen extends AbstractScreen {
                     loadComplete++;
                 }
                 if (Gdx.input.isTouched()) {
-                    game.setScreen(game.gameScreen);
+                    game.restart();
                 }
             }
         }
@@ -117,7 +117,6 @@ public class LoadingScreen extends AbstractScreen {
 
         stage.act();
         stage.draw();
-
     }
 
     @Override

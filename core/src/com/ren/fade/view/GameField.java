@@ -1,13 +1,10 @@
 package com.ren.fade.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.ren.fade.controller.DisappearanceAnimation;
 import com.ren.fade.controller.FallAnimation;
 import com.ren.fade.controller.GameFieldController;
@@ -21,26 +18,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class GameField extends Actor implements GameFieldController, Animation {
+public class GameField implements GameFieldController, Animation {
 
     private static final String[] normalRunes = {"blue_1.png", "red_1.png", "green_1.png", "yellow_1.png", "purple_1.png", "white_1.png"};
     private static final String[] specialRunes = {"blue_2.png", "red_2.png", "green_2.png", "yellow_2.png", "purple_2.png", "white_2.png"};
-//    private static final String[] sounds = {"knock.wav", "mystery3_3.wav", "mystery3_4.wav"};
 
     private GameFieldLogic fieldLogic;
 
     private List<Rune> runes = new ArrayList<>();
     private List<Animation> animations = new ArrayList<>();
 
-    Stage stage;
     private GameInputProcessor gameInputProcessor;
     private int boardSize;
     private static final float blockSize = 1;
     private static final float runeSize = 1;
 
-
+    private boolean soundEnabled;
+    private float soundVolume;
     private boolean canMove = false;
-//    private boolean playSound = false;
+    private boolean playSound = false;
 
     GameField(int boardSize) {
         this.gameInputProcessor = new GameInputProcessor(this);
@@ -50,15 +46,21 @@ public class GameField extends Actor implements GameFieldController, Animation {
     @Override
     public void load(AssetManager assetManager) {
         assetManager.load("field.jpg", Texture.class);
+        assetManager.load("magick_sound.wav", Sound.class);
         for (String name : GameField.normalRunes) {
             assetManager.load(name, Texture.class);
         }
         for (String name : GameField.specialRunes) {
             assetManager.load(name, Texture.class);
         }
-//        for (String name : GameField.sounds) {
-//            assetManager.load(name, Sound.class);
-//        }
+    }
+
+    void setSoundEnabled(boolean pref) {
+       this.soundEnabled = pref;
+    }
+
+    void setSoundVolume(float volume) {
+        this.soundVolume = volume;
     }
 
     @Override
@@ -104,12 +106,10 @@ public class GameField extends Actor implements GameFieldController, Animation {
         }
     }
 
-
     @Override
     public InputProcessor getInputProcessor() {
         return this.gameInputProcessor;
     }
-
 
     @Override
     public Rune newRune(int i, int j) {
@@ -140,14 +140,14 @@ public class GameField extends Actor implements GameFieldController, Animation {
 
         Set<Rune> runesToFall = this.fieldLogic.findRunesToFall();
         if (runesToFall.size() > 0) {
-//            this.playSound = true;
+            this.playSound = true;
             this.animations.add(new FallAnimation(runesToFall, GameField.blockSize, this));
             return;
         }
-//        if (this.playSound) {
-//            this.playSound = false;
-//            assetManager.get(GameFieldControl.soundNames[0], Sound.class).play();
-//        }
+        if (this.playSound && soundEnabled) {
+            this.playSound = false;
+            assetManager.get("magick_sound.wav", Sound.class).play(soundVolume);
+        }
         Set<Rune> matchedAll = this.fieldLogic.findMatches();
         if (matchedAll.size() > 0) {
             this.animations.add(new DisappearanceAnimation(matchedAll, GameField.runeSize, this));
@@ -165,8 +165,13 @@ public class GameField extends Actor implements GameFieldController, Animation {
         boolean success = this.fieldLogic.tryToSwap(i1, j1, i2, j2);
         this.animations.add(new SwapAnimation(this.fieldLogic.getRune(i1, j1), this.fieldLogic.getRune(i2, j2), !success, this));
         if (success) {
+            fieldLogic.moves--;
             this.canMove = false;
         }
+    }
+
+    int getMoves() {
+        return fieldLogic.getMoves();
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.ren.fade.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,7 +18,6 @@ import com.ren.fade.Fade;
 
 public class MainMenuScreen extends AbstractScreen {
 
-    private Table table;
     private Stage stage;
     private Image background;
 
@@ -39,10 +37,9 @@ public class MainMenuScreen extends AbstractScreen {
         background = new Image(atlas.findRegion("17"));
         stage.addActor(background);
 
-        table = new Table();
+        Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-
 
         Skin skin = new Skin(Gdx.files.internal("shade_skin\\uiskin.json"));
         TextButton play = new TextButton(null, skin);
@@ -67,7 +64,7 @@ public class MainMenuScreen extends AbstractScreen {
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new DifficultyScreen(game));
+                game.setScreen(new LoadingScreen(game));
             }
         });
 

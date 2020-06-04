@@ -44,9 +44,10 @@ public class RulesScreen extends AbstractScreen {
         stage.addActor(table);
 
         text = new Label( "Rules\nTo win in this game you must score 1000 points\n" +
-                "before time on the timer runs out. You do this\nby combining 3 or more blocks\n" +
-                "of the same type." + " Difficulty you select\nwill determine how much time you will have:\n" +
-                "Easy - 5 minutes\nMedium - 3 minutes\nHard - 1 minute",
+                "before you run out of moves. You do this\nby combining 3 or more runes\n" +
+                "of the same type." + " Combining 4 or more\nrunes together will create special runes.\n" +
+                "Combining special runes with 2 other runes \nof the same color will grant you 3 more moves\n" +
+                "Enjoy the Game",
                 skin.get("title-plain", Label.LabelStyle.class));
         text.setAlignment(Align.center);
 

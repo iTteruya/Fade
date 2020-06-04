@@ -89,4 +89,5 @@ task run(type: Exec) {
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.ren.fade/com.ren.fade.AndroidLauncher'
 }
 
+
 eclipse.project.name = appName + "-android"
