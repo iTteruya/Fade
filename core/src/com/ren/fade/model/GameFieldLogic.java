@@ -17,12 +17,12 @@ public class GameFieldLogic {
     private List<Match> rowMatches;
     private List<Match> colMatches;
 
-    public GameFieldLogic(GameFieldController createRunes, int size) {
+    public GameFieldLogic(GameFieldController controller, int size) {
         this.moves = 30;
         this.score = 0;
         this.combo = 0;
         this.size = size;
-        this.controller = createRunes;
+        this.controller = controller;
         this.runes = new Rune[this.size][this.size];
         this.rowMatches = new ArrayList<>();
         this.colMatches = new ArrayList<>();
