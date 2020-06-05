@@ -10,8 +10,6 @@ public class Rune {
     public float sizeX;
     public float sizeY;
 
-    Rune() { }
-
     public Rune(int kind, float posX, float posY, float sizeX, float sizeY) {
         this.kind = kind;
         this.posX = posX;

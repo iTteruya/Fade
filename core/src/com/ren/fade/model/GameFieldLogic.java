@@ -28,7 +28,6 @@ public class GameFieldLogic {
         this.colMatches = new ArrayList<>();
         for (int i = 0; i < this.size; ++i) {
             for (int j = 0; j < this.size; ++j) {
-                this.runes[i][j] = new Rune();
                 if (this.createRunes != null) {
                     this.runes[i][j] = this.createRunes.newRune(i, j);
                 }
