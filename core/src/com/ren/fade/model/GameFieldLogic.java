@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class GameFieldLogic {
 
-    private GameFieldController createRunes;
+    private GameFieldController controller;
     private int score;
     public int moves;
     private int size;
@@ -22,14 +22,14 @@ public class GameFieldLogic {
         this.score = 0;
         this.combo = 0;
         this.size = size;
-        this.createRunes = createRunes;
+        this.controller = createRunes;
         this.runes = new Rune[this.size][this.size];
         this.rowMatches = new ArrayList<>();
         this.colMatches = new ArrayList<>();
         for (int i = 0; i < this.size; ++i) {
             for (int j = 0; j < this.size; ++j) {
-                if (this.createRunes != null) {
-                    this.runes[i][j] = this.createRunes.newRune(i, j);
+                if (this.controller != null) {
+                    this.runes[i][j] = this.controller.newRune(i, j);
                 }
             }
         }
@@ -220,7 +220,7 @@ public class GameFieldLogic {
                 if (thisRune != null)
                     continue;
                 if (j == this.size - 1) {
-                    thisRune = this.createRunes.newRune(i, j + 1);
+                    thisRune = this.controller.newRune(i, j + 1);
                 } else {
                     thisRune = this.runes[i][j + 1];
                     this.runes[i][j + 1] = null;
