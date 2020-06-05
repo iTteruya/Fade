@@ -5,14 +5,15 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.ren.fade.controller.DisappearanceAnimation;
-import com.ren.fade.controller.FallAnimation;
+import com.ren.fade.view.animations.DisappearanceAnimation;
+import com.ren.fade.view.animations.FallAnimation;
 import com.ren.fade.controller.GameFieldController;
 import com.ren.fade.controller.GameInputProcessor;
-import com.ren.fade.controller.Animation;
-import com.ren.fade.controller.SwapAnimation;
+import com.ren.fade.view.animations.Animation;
+import com.ren.fade.view.animations.SwapAnimation;
 import com.ren.fade.model.GameFieldLogic;
 import com.ren.fade.model.Rune;
+import com.ren.fade.model.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,10 +97,10 @@ public class GameField implements GameFieldController, Animation {
         float minX = rune.posX - 0.5f * rune.sizeX;
         float minY = rune.posY - 0.5f * rune.sizeY;
         if (rune.kind != -1) {
-            if (rune.type == Rune.Type.NORMAL) {
+            if (rune.type == Type.NORMAL) {
                 image = assetManager.get(GameField.normalRunes[rune.kind], Texture.class);
                 this.drawImage(batch, image, minX, minY, rune.sizeX, rune.sizeY);
-            } else if (rune.type == Rune.Type.SPECIAL) {
+            } else if (rune.type == Type.SPECIAL) {
                 image = assetManager.get(GameField.specialRunes[rune.kind], Texture.class);
                 this.drawImage(batch, image, minX, minY, rune.sizeX, rune.sizeY);
             }

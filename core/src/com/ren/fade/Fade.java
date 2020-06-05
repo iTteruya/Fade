@@ -19,7 +19,6 @@ public class Fade extends Game {
     private Music music;
     private Viewport viewport;
     public GameScreen gameScreen;
-    private float currentVolume;
     public AssetManager manager = new AssetManager();
 
     @Override
@@ -49,7 +48,7 @@ public class Fade extends Game {
 
     @Override
     public void render() {
-        this.currentVolume = music.getVolume();
+        float currentVolume = music.getVolume();
         this.batch.setProjectionMatrix(this.viewport.getCamera().projection);
         this.batch.setTransformMatrix(this.viewport.getCamera().view);
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -62,12 +61,12 @@ public class Fade extends Game {
                 (this.options.getMusicVolume() != 0 && currentVolume == 0)) {
             music.setLooping(true);
             music.setVolume(this.options.getMusicVolume());
-            this.currentVolume = music.getVolume();
+            currentVolume = music.getVolume();
             music.play();
         }
-        if (this.options.isMusicEnabled() && music.isPlaying() && this.options.getMusicVolume() != this.currentVolume) {
+        if (this.options.isMusicEnabled() && music.isPlaying() && this.options.getMusicVolume() != currentVolume) {
             music.setVolume(this.options.getMusicVolume());
-            if (this.currentVolume == 0) music.stop();
+            if (currentVolume == 0) music.stop();
         }
         this.batch.begin();
         super.render();

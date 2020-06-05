@@ -23,11 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 public class OptionsScreen extends AbstractScreen  {
 
     private Stage stage;
-    private Label titleLabel;
-    private Label volumeMusicLabel;
-    private Label volumeSoundLabel;
-    private Label musicOnOffLabel;
-    private Label soundOnOffLabel;
     private Image background;
 
     OptionsScreen(Fade game) {
@@ -109,11 +104,11 @@ public class OptionsScreen extends AbstractScreen  {
         table.setFillParent(true);
         stage.addActor(table);
 
-        titleLabel = new Label( "Options", skin.get("title-plain", Label.LabelStyle.class));
-        volumeMusicLabel = new Label( "Music Volume", skin.get("title-plain", Label.LabelStyle.class));
-        volumeSoundLabel = new Label( "Sound Volume", skin.get("title-plain", Label.LabelStyle.class));
-        musicOnOffLabel = new Label( "Music", skin.get("title-plain", Label.LabelStyle.class));
-        soundOnOffLabel = new Label( "Sound Effect", skin.get("title-plain", Label.LabelStyle.class));
+        Label titleLabel = new Label("Options", skin.get("title-plain", Label.LabelStyle.class));
+        Label volumeMusicLabel = new Label("Music Volume", skin.get("title-plain", Label.LabelStyle.class));
+        Label volumeSoundLabel = new Label("Sound Volume", skin.get("title-plain", Label.LabelStyle.class));
+        Label musicOnOffLabel = new Label("Music", skin.get("title-plain", Label.LabelStyle.class));
+        Label soundOnOffLabel = new Label("Sound Effect", skin.get("title-plain", Label.LabelStyle.class));
 
         table.add(titleLabel).colspan(2);
         table.row().pad(10,0,0,10);

@@ -2,7 +2,6 @@ package com.ren.fade.model;
 
 public class Rune {
 
-    public enum Type {NORMAL, SPECIAL}
     public Type type = Type.NORMAL;
     public int activity = -1;
     public int kind;
@@ -10,6 +9,8 @@ public class Rune {
     public float posY;
     public float sizeX;
     public float sizeY;
+
+    Rune() { }
 
     public Rune(int kind, float posX, float posY, float sizeX, float sizeY) {
         this.kind = kind;
@@ -19,3 +20,4 @@ public class Rune {
         this.sizeY = sizeY;
     }
 }
+

@@ -13,7 +13,7 @@ public class GameFieldLogic {
     public int moves;
     private int size;
     private  int combo;
-    private Block[][] blocks;
+    private Rune[][] runes;
     private List<Match> rowMatches;
     private List<Match> colMatches;
 
@@ -23,14 +23,14 @@ public class GameFieldLogic {
         this.combo = 0;
         this.size = size;
         this.createRunes = createRunes;
-        this.blocks = new Block[this.size][this.size];
+        this.runes = new Rune[this.size][this.size];
         this.rowMatches = new ArrayList<>();
         this.colMatches = new ArrayList<>();
         for (int i = 0; i < this.size; ++i) {
             for (int j = 0; j < this.size; ++j) {
-                this.blocks[i][j] = new Block();
+                this.runes[i][j] = new Rune();
                 if (this.createRunes != null) {
-                    this.blocks[i][j].object = this.createRunes.newRune(i, j);
+                    this.runes[i][j] = this.createRunes.newRune(i, j);
                 }
             }
         }
@@ -45,7 +45,7 @@ public class GameFieldLogic {
     }
 
     public Rune getRune(int i, int j) {
-        return this.blocks[i][j].object;
+        return this.runes[i][j];
     }
 
     public Set<Rune> getAllRunes() {
@@ -67,8 +67,8 @@ public class GameFieldLogic {
             for (int j = 0; j < this.size; ++j) {
                 Rune thisRune = this.getRune(i, j);
                 if (thisRune != null && runes.contains(thisRune)) {
-                    this.blocks[i][j].object = null;
-                    if (thisRune.type == Rune.Type.SPECIAL) {
+                    this.runes[i][j] = null;
+                    if (thisRune.type == Type.SPECIAL) {
                         this.moves += 3;
                         for (int newI = 0; newI < this.size; ++newI) {
                             Rune rune = this.getRune(newI, j);
@@ -90,9 +90,9 @@ public class GameFieldLogic {
     }
 
     private void swapRunes(int i1, int j1, int i2, int j2) {
-        Rune rune = this.blocks[i1][j1].object;
-        this.blocks[i1][j1].object = this.blocks[i2][j2].object;
-        this.blocks[i2][j2].object = rune;
+        Rune rune = this.runes[i1][j1];
+        this.runes[i1][j1] = this.runes[i2][j2];
+        this.runes[i2][j2] = rune;
     }
 
     private void findMatches(boolean rows) {
@@ -102,7 +102,7 @@ public class GameFieldLogic {
         for (int outer = 0; outer < this.size; ++outer) {
             current = new Match();
             for (int inner = 0; inner < this.size; ++inner) {
-                Rune rune = this.blocks[rows ? inner : outer][rows ? outer : inner].object;
+                Rune rune = this.runes[rows ? inner : outer][rows ? outer : inner];
                 boolean validRune = rune != null && rune.activity == -1 && rune.kind >= 0;
                 if (validRune && rune.kind == current.kind) {
                     ++current.length;
@@ -131,7 +131,7 @@ public class GameFieldLogic {
         for (Match match: this.rowMatches) {
             for (int d = 0; d < match.length; ++d) {
                 Rune rune = this.getRune(match.i + d, match.j);
-                if (rune.type != Rune.Type.NORMAL) {
+                if (rune.type != Type.NORMAL) {
                     this.score += 10 * combo * match.length;
                     matchedAll.add(rune);
                 }
@@ -140,7 +140,7 @@ public class GameFieldLogic {
         for (Match match: this.colMatches) {
             for (int d = 0; d < match.length; ++d) {
                 Rune rune = this.getRune(match.i, match.j + d);
-                if (rune.type != Rune.Type.NORMAL) {
+                if (rune.type != Type.NORMAL) {
                     this.score += 10 * combo * match.length;
                     matchedAll.add(rune);
                 }
@@ -153,8 +153,8 @@ public class GameFieldLogic {
                         colMatch.j <= rowMatch.j && rowMatch.j < colMatch.j + colMatch.length)) {
                     score += combo * (rowMatch.length * (rowMatch.length - 2) * rowMatch.length * (colMatch.length - 2));
                     Rune rune = this.getRune(colMatch.i, rowMatch.j);
-                    if (rune.type == Rune.Type.NORMAL) {
-                        rune.type = Rune.Type.SPECIAL;
+                    if (rune.type == Type.NORMAL) {
+                        rune.type = Type.SPECIAL;
                     }
                 }
             }
@@ -165,13 +165,13 @@ public class GameFieldLogic {
                 List<Rune> normalRunes = new ArrayList<>();
                 for (int d = 0; d < match.length; ++d) {
                     Rune rune = this.getRune(match.i + d, match.j);
-                    if (rune.type == Rune.Type.NORMAL) {
+                    if (rune.type == Type.NORMAL) {
                         normalRunes.add(rune);
                     }
                 } if (normalRunes.size() > 0) {
                     Rune rune = normalRunes.get((int)(Math.random() * normalRunes.size()));
                     if (match.length >= 4) {
-                        rune.type = Rune.Type.SPECIAL;
+                        rune.type = Type.SPECIAL;
                     }
                 }
             }
@@ -182,13 +182,13 @@ public class GameFieldLogic {
                 List<Rune> normalRunes = new ArrayList<>();
                 for (int d = 0; d < match.length; ++d) {
                     Rune rune = this.getRune(match.i, match.j + d);
-                    if (rune.type == Rune.Type.NORMAL) {
+                    if (rune.type == Type.NORMAL) {
                         normalRunes.add(rune);
                     }
                 }if (normalRunes.size() > 0) {
                     Rune rune = normalRunes.get((int)(Math.random() * normalRunes.size()));
                     if (match.length >= 4) {
-                        rune.type = Rune.Type.SPECIAL;
+                        rune.type = Type.SPECIAL;
                     }
                 }
             }
@@ -197,7 +197,7 @@ public class GameFieldLogic {
         for (Match match: this.rowMatches) {
             for (int d = 0; d < match.length; ++d) {
                 Rune rune = this.getRune(match.i + d, match.j);
-                if (rune.type == Rune.Type.NORMAL) {
+                if (rune.type == Type.NORMAL) {
                     matchedAll.add(rune);
                 }
             }
@@ -205,7 +205,7 @@ public class GameFieldLogic {
         for (Match match: this.colMatches) {
             for (int d = 0; d < match.length; ++d) {
                 Rune rune = this.getRune(match.i, match.j + d);
-                if (rune.type == Rune.Type.NORMAL) {
+                if (rune.type == Type.NORMAL) {
                     matchedAll.add(rune);
                 }
             }
@@ -217,16 +217,16 @@ public class GameFieldLogic {
         Set<Rune> runesToFall = new HashSet<>();
         for (int i = 0; i < this.size; ++i) {
             for (int j = 0; j < this.size; ++j) {
-                Rune thisRune = this.blocks[i][j].object;
+                Rune thisRune = this.runes[i][j];
                 if (thisRune != null)
                     continue;
                 if (j == this.size - 1) {
                     thisRune = this.createRunes.newRune(i, j + 1);
                 } else {
-                    thisRune = this.blocks[i][j + 1].object;
-                    this.blocks[i][j + 1].object = null;
+                    thisRune = this.runes[i][j + 1];
+                    this.runes[i][j + 1] = null;
                 }
-                this.blocks[i][j].object = thisRune;
+                this.runes[i][j] = thisRune;
                 if (thisRune == null)
                     continue;
                 runesToFall.add(thisRune);

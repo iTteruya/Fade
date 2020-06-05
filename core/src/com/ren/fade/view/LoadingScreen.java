@@ -23,8 +23,6 @@ public class LoadingScreen extends AbstractScreen {
     private Image bar;
     private Image loadingBg;
 
-
-    private int loadComplete = 0;
     private Label label;
 
     private float startX, endX;
@@ -44,6 +42,12 @@ public class LoadingScreen extends AbstractScreen {
         stage = new Stage(new ExtendViewport(640, 480));
         TextureAtlas atlas = game.manager.get("loading.atlas", TextureAtlas.class);
 
+        Skin skin = new Skin(Gdx.files.internal("shade_skin\\uiskin.json"));
+        label = new Label("Press to Start", skin.get("title-plain", Label.LabelStyle.class));
+        label.setAlignment(Align.center);
+        label.setFontScale(1);
+        label.setPosition(stage.getWidth() / 2 - 65, 10);
+
         background = new Image(atlas.findRegion("14"));
         backgroundBar = new Image(atlas.findRegion("BackgroundBar"));
         borderBar = new Image(atlas.findRegion("BorderBar"));
@@ -62,9 +66,8 @@ public class LoadingScreen extends AbstractScreen {
     public void resize(int width, int height) {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        if (loadComplete == 1) {
-            label.setPosition(stage.getWidth() / 2 - 65, 10);
-        }
+        label.setPosition(stage.getWidth() / 2 - 65, 10);
+
         background.setSize(stage.getWidth(), stage.getHeight());
 
         borderBar.setSize(stage.getWidth() * 0.7f, stage.getHeight() * 0.03f);
@@ -94,15 +97,7 @@ public class LoadingScreen extends AbstractScreen {
 
         if (game.manager.update()) {
             if (game.manager.getProgress() == 1) {
-                if (loadComplete == 0) {
-                    Skin skin = new Skin(Gdx.files.internal("shade_skin\\uiskin.json"));
-                    label = new Label("Press to Start", skin.get("title-plain", Label.LabelStyle.class));
-                    label.setAlignment(Align.center);
-                    label.setFontScale(1);
-                    label.setPosition(stage.getWidth() / 2 - 65, 10);
-                    stage.addActor(label);
-                    loadComplete++;
-                }
+                stage.addActor(label);
                 if (Gdx.input.isTouched()) {
                     game.restart();
                 }

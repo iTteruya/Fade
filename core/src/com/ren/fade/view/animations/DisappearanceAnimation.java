@@ -1,4 +1,4 @@
-package com.ren.fade.controller;
+package com.ren.fade.view.animations;
 
 import com.ren.fade.model.Rune;
 

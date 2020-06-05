@@ -1,4 +1,4 @@
-package com.ren.fade.controller;
+package com.ren.fade.view.animations;
 
 public interface Animation {
         void update(float delta);
