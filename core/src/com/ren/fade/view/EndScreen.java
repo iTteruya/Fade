@@ -88,7 +88,7 @@ public class EndScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (game.gameScreen.win) {
-            gameOver.setText("Congratulations!\nYou Won");
+            gameOver.setText("Congratulations!\nYou Win");
         } else gameOver.setText("Game Over\nScore: " + game.gameScreen.gameField.getScore());
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

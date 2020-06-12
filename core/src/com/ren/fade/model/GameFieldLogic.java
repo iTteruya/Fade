@@ -11,17 +11,16 @@ public class GameFieldLogic {
     private GameFieldController controller;
     private int score;
     public int moves;
-    private int size;
+    private final int size = 7;
     private  int combo;
     private Rune[][] runes;
     private List<Match> rowMatches;
     private List<Match> colMatches;
 
-    public GameFieldLogic(GameFieldController controller, int size) {
+    public GameFieldLogic(GameFieldController controller) {
         this.moves = 30;
         this.score = 0;
         this.combo = 0;
-        this.size = size;
         this.controller = controller;
         this.runes = new Rune[this.size][this.size];
         this.rowMatches = new ArrayList<>();

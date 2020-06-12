@@ -39,9 +39,9 @@ public class GameField implements GameFieldController, Animation {
     private boolean canMove = false;
     private boolean playSound = false;
 
-    GameField(int boardSize) {
+    GameField() {
         this.gameInputProcessor = new GameInputProcessor(this);
-        this.fieldLogic = new GameFieldLogic(this, boardSize);
+        this.fieldLogic = new GameFieldLogic(this);
     }
 
     @Override

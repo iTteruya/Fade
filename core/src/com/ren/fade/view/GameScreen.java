@@ -34,7 +34,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Screen
     public GameScreen(Fade game, SpriteBatch batch) {
         super(game);
         this.batch = batch;
-        gameField = new GameField(7);
+        gameField = new GameField();
         gameField.setSoundEnabled(game.getPreferences().isSoundEffectsEnabled());
         gameField.setSoundVolume(game.getPreferences().getSoundVolume());
         stage = new Stage(new ExtendViewport(640, 480));
